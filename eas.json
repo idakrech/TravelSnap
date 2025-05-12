@@ -1,0 +1,16 @@
+{
+  "build": {
+    "development": {
+      "ios": {
+        "simulator": true,
+        "distribution": "internal"
+      }
+    },
+    "production": {
+      "ios": {
+        "simulator": false,
+        "distribution": "store"
+      }
+    }
+  }
+}

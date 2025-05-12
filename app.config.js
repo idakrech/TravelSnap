@@ -7,11 +7,12 @@ export default {
     version: "1.0.0",
     orientation: "portrait",
     jsEngine: "hermes",
+    owner: "idaurs",
     icon: "./assets/icon.png",
     splash: {
       image: "./assets/standing_logo.png",
-      resizeMode: "contain",      // <-- Utrzymanie proporcji
-      backgroundColor: "#ffc0a0", // <-- Kolor tła
+      resizeMode: "contain",
+      backgroundColor: "#ffc0a0",
     },
     plugins: [
       [
@@ -52,6 +53,9 @@ export default {
       FIREBASE_MESSAGING_SENDER_ID: process.env.FIREBASE_MESSAGING_SENDER_ID,
       FIREBASE_APP_ID: process.env.FIREBASE_APP_ID,
       FIREBASE_MEASUREMENT_ID: process.env.FIREBASE_MEASUREMENT_ID,
+      eas: {
+        projectId: "42668756-1859-4e7f-9ad3-c171f41219f8"
+      },
     },
   },
 };
