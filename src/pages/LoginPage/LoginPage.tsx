@@ -79,12 +79,6 @@ const LoginPage = () => {
         }}
       >
         <WelcomeToTravelSnap />
-         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Image
-        source={require("../../../assets/standing_logo.png")}
-        style={{ width: 200, height: 200 }}
-      />
-    </View>
         <Text>Log in</Text>
         <Input placeholderText="Email" onInputChange={handleEmailChange} />
 
