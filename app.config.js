@@ -6,6 +6,13 @@ export default {
     slug: "travelsnap",
     version: "1.0.0",
     jsEngine: "hermes",
+    orientation: "portrait",
+    icon: "./assets/icon.png", 
+    splash: {
+      image: "./assets/splash.png",
+      resizeMode: "contain",        
+      backgroundColor: "#f7ded1",   
+    },
     plugins: [
       [
         "expo-build-properties",
@@ -17,6 +24,9 @@ export default {
       ],
     ],
     ios: {
+      bundleIdentifier: "com.yourcompany.travelsnap",
+      buildNumber: "1.0.0",
+      supportsTablet: true,
       infoPlist: {
         NSLocationWhenInUseUsageDescription:
           "This app needs access to your location to show maps and location-based features.",
@@ -24,6 +34,15 @@ export default {
           "This app needs access to your location to show maps and location-based features.",
         NSLocationAlwaysUsageDescription:
           "This app needs access to your location to show maps and location-based features.",
+      },
+    },
+    android: {
+      package: "com.yourcompany.travelsnap",
+      versionCode: 1,
+      permissions: ["ACCESS_FINE_LOCATION", "ACCESS_COARSE_LOCATION"],
+      adaptiveIcon: {
+        foregroundImage: "./assets/icon.png",
+        backgroundColor: "#ffffff",
       },
     },
     extra: {
