@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { View, Text, TouchableOpacity } from "react-native"
+import { View, Text, TouchableOpacity, Image } from "react-native"
 import ButtonGradient, { ButtonColor } from "../../components/Button/ButtonGradient"
 import Input from "../../components/Input/Input"
 import WelcomeToTravelSnap from "../../components/WelcomeToTravelSnap/WelcomeToTravelSnap"
@@ -79,6 +79,12 @@ const LoginPage = () => {
         }}
       >
         <WelcomeToTravelSnap />
+         <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <Image
+        source={require("../../../assets/standing_logo.png")}
+        style={{ width: 200, height: 200 }}
+      />
+    </View>
         <Text>Log in</Text>
         <Input placeholderText="Email" onInputChange={handleEmailChange} />
 

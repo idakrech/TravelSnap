@@ -76,7 +76,6 @@ function ProfilePage() {
     );
 
     return () => {
-      console.log("Cleaning up...");
       unsubscribeUser();
       unsubscribePosts();
     };
@@ -135,7 +134,6 @@ function ProfilePage() {
             data={posts}
             keyExtractor={(item) => item.postID.toString()}
             refreshing={false}
-            onRefresh={() => console.log("Refreshed")}
             style={{height: "100%"}}
             renderItem={({ item }) => (
               <GalleryPost

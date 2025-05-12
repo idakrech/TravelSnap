@@ -126,11 +126,7 @@ const ImageDetailPage = () => {
   const deleteComment = async (commentID: string) => {
     try {
       const commentDocRef = doc(db, "posts", postID, "comments", commentID)
-
-      // Delete the comment document from the database
       await deleteDoc(commentDocRef)
-
-      console.log("Comment deleted successfully!")
     } catch (error) {
       console.error("Error deleting comment")
     }
