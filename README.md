@@ -30,3 +30,6 @@ TravelSnap is a mobile application developed using React Native with Expo, integ
   
 ### Implementation Details:
 You must register in Firebase and pass your own Firebase key in the Firebase.tsx file in src/config folder.
+
+### Project's Demo:
+https://youtube.com/shorts/k0fFUk5641s?si=BLjwo4GbXErFI-DB
