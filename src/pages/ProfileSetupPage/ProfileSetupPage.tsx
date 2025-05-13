@@ -23,6 +23,7 @@ export type ProfileSetupScreenNavigationProp = CompositeNavigationProp<
   NativeStackNavigationProp<RootStackParamList>
 >;
 
+
 const ProfileSetupPage = () => {
   const navigation = useNavigation<ProfileSetupScreenNavigationProp>();
   const [hasGalleryPermission, setHasGalleryPermission] =
@@ -99,12 +100,15 @@ const ProfileSetupPage = () => {
     setIsBioChanged(true);
   };
 
-  const handleProfileUpdate = async () => {
+const handleProfileUpdate = async () => {
+
+  try {
     if (isBioChanged) {
       await updateDoc(doc(db, "users", userID), {
         profileBio: bio,
       });
     }
+
     if (isImageChanged) {
       await updateDoc(doc(db, "users", userID), {
         profileImg: image,
@@ -127,7 +131,12 @@ const ProfileSetupPage = () => {
       profileImg: downloadURL,
     });
     navigation.navigate("Main");
-  };
+
+  } catch (error) {
+    console.error("An error occured: ", error);
+  }
+};
+
 
   return (
     <LinearGradient
