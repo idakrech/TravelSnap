@@ -1,4 +1,4 @@
-import { TextInput } from "react-native"
+import { KeyboardAvoidingView, Platform, TextInput } from "react-native"
 import {
   QueryDocumentSnapshot,
   Timestamp,
@@ -137,200 +137,206 @@ const ImageDetailPage = () => {
       colors={["#ffc0a066", "#ffe7a066"]}
       style={{ height: "100%", justifyContent: "center", paddingBottom: 48 }}
     >
-      <ScrollView>
-        <View style={{ width: "100%" }}>
-          <View
-            style={{
-              flexDirection: "row",
-              paddingHorizontal: 8,
-              paddingVertical: 8,
-              alignItems: "center",
-            }}
-          >
-            <Image
-              source={{ uri: userImage }}
-              style={{ width: 32, height: 32, borderRadius: 16 }}
-            />
-            <Text style={{ fontSize: 16, paddingLeft: 8 }}>{username}</Text>
-          </View>
-          <Image
-            source={{ uri: image }}
-            style={{ width: "100%", height: 450 }}
-          />
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-            paddingVertical: 8,
-            justifyContent: "space-between",
-            paddingRight: 8,
-          }}
-        >
-          <Text style={{ fontSize: 14, marginLeft: 8 }}>
-            📍 {cityName ? cityName : "Unknown"}
-          </Text>
-          <Text style={{ fontSize: 14, marginLeft: 8 }}>
-            {timestamp?.toDate().toLocaleDateString("en-GB", {
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
-              hour: "2-digit",
-              minute: "2-digit",
-              hour12: false,
-              timeZone: "Europe/Warsaw",
-            })}
-          </Text>
-        </View>
-
-        <View style={{ paddingHorizontal: 8, paddingVertical: 8 }}>
-          <Text style={{ marginRight: 8 }}>
-            <Text style={{ fontWeight: "bold" }}>{username}</Text> {caption}
-          </Text>
-        </View>
-
-        <MapView
-          style={{ height: 200, margin: 12 }}
-          key={Math.random()}
-          initialRegion={{
-            latitude: latitude,
-            longitude: longitude,
-            latitudeDelta: 0.005,
-            longitudeDelta: 0.005,
-          }}
-        >
-          {latitude && longitude && (
-            <Marker
-              coordinate={{
-                latitude: latitude,
-                longitude: longitude,
-              }}
-              title="Photo location"
-              identifier="Photo location"
-            />
-          )}
-        </MapView>
-
-        <View
-          style={{
-            paddingHorizontal: 8,
-            paddingVertical: 4,
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              width: "100%",
-              marginBottom: 12,
-            }}
-          >
-            <Image
-              source={{ uri: commentersProfileImg }}
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        keyboardVerticalOffset={Platform.OS === "ios" ? 100 : 0}
+      >
+        <ScrollView>
+          <View style={{ width: "100%" }}>
+            <View
               style={{
-                width: 32,
-                height: 32,
-                borderRadius: 16,
-                marginRight: 8,
-              }}
-            />
-            <TextInput
-              value={comment}
-              onChangeText={setComment}
-              placeholder="Write a comment..."
-              placeholderTextColor="#7a7a7a"
-              style={{
-                borderWidth: 1,
-                borderColor: "#ccc",
-                borderRadius: 20,
+                flexDirection: "row",
+                paddingHorizontal: 8,
                 paddingVertical: 8,
-                paddingHorizontal: 16,
-                width: "75%",
-                marginRight: 8,
-              }}
-            />
-            <TouchableOpacity
-              onPress={sendComment}
-              disabled={!comment.trim()}
-              style={{
-                backgroundColor: "#f5e8d9",
-                borderWidth: 1,
-                borderColor: "#ccc",
-                width: 40,
-                height: 40,
-                borderRadius: 20,
-                justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <Icon name="arrowup" size={20} color="#7a7a7a" />
-            </TouchableOpacity>
+              <Image
+                source={{ uri: userImage }}
+                style={{ width: 32, height: 32, borderRadius: 16 }}
+              />
+              <Text style={{ fontSize: 16, paddingLeft: 8 }}>{username}</Text>
+            </View>
+            <Image
+              source={{ uri: image }}
+              style={{ width: "100%", height: 450 }}
+            />
           </View>
-        </View>
 
-        {/** COMMENTS */}
-        {comments.length > 0 && (
           <View
             style={{
-              justifyContent: "flex-start",
-              paddingHorizontal: 8,
-              paddingVertical: 4,
-              marginBottom: 64,
+              flexDirection: "row",
+              paddingVertical: 8,
+              justifyContent: "space-between",
+              paddingRight: 8,
             }}
           >
-            {comments.map((comment) => (
-              <View key={comment.id} style={{ paddingVertical: 8 }}>
-                <View
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    paddingVertical: 16,
-                  }}
-                >
-                  <View style={{ flexDirection: "row", alignItems: "center"}}>
-                    <Image
-                      source={{ uri: comment.data().profileImg }}
-                      style={{ width: 32, height: 32, borderRadius: 16 }}
-                    />
-                    <Text style={{ paddingHorizontal: 8, width: "85%" }}>
-                      <Text style={{ fontWeight: "bold" }}>
-                        {comment.data().username}{" "}
-                      </Text>
-                      {comment.data().comment}
-                    </Text>
-                  </View>
-
-                  <View>
-                    {commentersUsername == comment.data().username && (
-                      <TouchableOpacity
-                        onPress={() => {
-                          deleteComment(comment.id)
-                        }}
-                      >
-                        <Icon name="delete" size={20} color="#ff6b22" />
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                </View>
-                <Text style={{color: "#7a7a7a"}}>
-                  {comment.data().timestamp &&
-                  comment.data().timestamp.toDate() instanceof Date &&
-                  !isNaN(comment.data().timestamp.toDate().getTime())
-                    ? formatDistanceToNow(comment.data().timestamp.toDate(), {
-                        addSuffix: true,
-                      })
-                    : ""}
-                </Text>
-              </View>
-            ))}
+            <Text style={{ fontSize: 14, marginLeft: 8 }}>
+              📍 {cityName ? cityName : "Unknown"}
+            </Text>
+            <Text style={{ fontSize: 14, marginLeft: 8 }}>
+              {timestamp?.toDate().toLocaleDateString("en-GB", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+                hour12: false,
+                timeZone: "Europe/Warsaw",
+              })}
+            </Text>
           </View>
-        )}
-        {/** COMMENTS END */}
-      </ScrollView>
+
+          <View style={{ paddingHorizontal: 8, paddingVertical: 8 }}>
+            <Text style={{ marginRight: 8 }}>
+              <Text style={{ fontWeight: "bold" }}>{username}</Text> {caption}
+            </Text>
+          </View>
+
+          <MapView
+            style={{ height: 200, margin: 12 }}
+            key={Math.random()}
+            initialRegion={{
+              latitude: latitude,
+              longitude: longitude,
+              latitudeDelta: 0.005,
+              longitudeDelta: 0.005,
+            }}
+          >
+            {latitude && longitude && (
+              <Marker
+                coordinate={{
+                  latitude: latitude,
+                  longitude: longitude,
+                }}
+                title="Photo location"
+                identifier="Photo location"
+              />
+            )}
+          </MapView>
+
+          {comments.length > 0 && (
+            <View
+              style={{
+                justifyContent: "flex-start",
+                paddingHorizontal: 8,
+                paddingVertical: 4,
+                marginBottom: 64,
+              }}
+            >
+              {comments.map((comment) => (
+                <View key={comment.id} style={{ paddingVertical: 8 }}>
+                  <View
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      paddingVertical: 16,
+                    }}
+                  >
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
+                    >
+                      <Image
+                        source={{ uri: comment.data().profileImg }}
+                        style={{ width: 32, height: 32, borderRadius: 16 }}
+                      />
+                      <Text style={{ paddingHorizontal: 8, width: "85%" }}>
+                        <Text style={{ fontWeight: "bold" }}>
+                          {comment.data().username}{" "}
+                        </Text>
+                        {comment.data().comment}
+                      </Text>
+                    </View>
+
+                    <View>
+                      {commentersUsername == comment.data().username && (
+                        <TouchableOpacity
+                          onPress={() => {
+                            deleteComment(comment.id)
+                          }}
+                        >
+                          <Icon name="delete" size={20} color="#ff6b22" />
+                        </TouchableOpacity>
+                      )}
+                    </View>
+                  </View>
+                  <Text style={{ color: "#7a7a7a" }}>
+                    {comment.data().timestamp &&
+                    comment.data().timestamp.toDate() instanceof Date &&
+                    !isNaN(comment.data().timestamp.toDate().getTime())
+                      ? formatDistanceToNow(comment.data().timestamp.toDate(), {
+                          addSuffix: true,
+                        })
+                      : ""}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+
+          <View
+            style={{
+              paddingHorizontal: 8,
+              paddingVertical: 4,
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                width: "100%",
+                marginBottom: 12,
+              }}
+            >
+              <Image
+                source={{ uri: commentersProfileImg }}
+                style={{
+                  width: 32,
+                  height: 32,
+                  borderRadius: 16,
+                  marginRight: 8,
+                }}
+              />
+              <TextInput
+                value={comment}
+                onChangeText={setComment}
+                placeholder="Write a comment..."
+                placeholderTextColor="#7a7a7a"
+                style={{
+                  borderWidth: 1,
+                  borderColor: "#ccc",
+                  borderRadius: 20,
+                  paddingVertical: 8,
+                  paddingHorizontal: 16,
+                  width: "75%",
+                  marginRight: 8,
+                }}
+              />
+              <TouchableOpacity
+                onPress={sendComment}
+                disabled={!comment.trim()}
+                style={{
+                  backgroundColor: "#f5e8d9",
+                  borderWidth: 1,
+                  borderColor: "#ccc",
+                  width: 40,
+                  height: 40,
+                  borderRadius: 20,
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Icon name="arrowup" size={20} color="#7a7a7a" />
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </LinearGradient>
   )
 }
